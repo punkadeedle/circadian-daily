@@ -1,0 +1,9 @@
+<%- include ("./partials/header.ejs") %>
+<h5>Username or password incorrect. Please try again.</h5>
+<form action="/login" method="post">
+	<input type="text" name="username" placeholder="Username" required>
+	<input type="password" name="password" placeholder="Password" required>
+	<input class="btn btn-success" type="submit" value="Login">
+</form>
+
+<%- include ("./partials/footer.ejs") %>

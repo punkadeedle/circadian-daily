@@ -1,0 +1,114 @@
+<%- include ("./partials/header.ejs") %>
+
+<div class="container-fluid">
+  <div class="row">
+    <div id="calendarSection"class="col-lg-7 col-md-12">
+      <div class="row" id="calendarTitle"></div>
+      <div class="row">
+        <i onclick="loadPrevious()" class='col-1 notCurrent fas fa-angle-left'></i>
+        <div id="calendarTable"  class="col-10"></div>
+        <i onclick="loadNext()" class='col-1 notCurrent fas fa-angle-right'></i>
+      </div>
+    </div>
+    <div id="eventSection" class="col-lg-5 col-md-12">
+      <div name="dateInContext" id="dateInContext" type="text" class="hidden"></div>
+      <div class="row" id="eventHeader">
+        <div class="col-12">
+          <div class="h3" id="eventDay"></div>
+          <div class="h3" id="eventMonthDate"></div>
+        </div>
+      </div>
+      <div class="row vertLine" id="eventList">
+        <div class="col-12">
+          <% if(!currentUser){ %>
+            <h5>Please login to see events</h5>
+            <%} else { %>
+              <% if(events.length > 0){ %>
+                <% events.forEach(function(event){ %>
+                  <div class="event card hidden" style="width: 18rem;">
+                    <div class="startdate hidden"><%= event.startDate %></div>
+                    <div class="enddate hidden"><%= event.endDate %></div>
+                    <div onclick="expandEvent(this)" class="card-header">
+                      <% if(event.allDayInd){ %>
+                        (All day) 	<%= event.title %>
+                        <%} else {%>
+                          <%= event.startTime %> 	<%= event.title %>
+                          <%} %>
+                        </div>
+                        <ul id="testing" class="hidden list-group list-group-flush">
+                          <li class="list-group-item">Description: <%= event.description %></li>
+                          <li class="list-group-item">Location: <%= event.location %></li>
+                          <li>
+                            <input id="event-input" type="hidden" value="<%= JSON.stringify(event) %>">
+                            <i id="editEvent" onclick="editModal(this)" class='far fa-edit'></i>
+                            <form action="/events/<%= event._id %>?_method=DELETE" method="post">
+                              <button type="submit"><i class="far fa-trash-alt"></i></button>
+                            </form>
+                          </li>
+                        </ul>
+                      </div>
+                      <%})} %>
+                      <h5 id="eventCount">No appointments</h5>
+                      <%} %>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <% if(!currentUser){ %>
+                      <i id="eventFooter" data-toggle="modal" data-target="#loginModal" data-whatever="@mdo" class='col-12 fas fa-plus'></i>
+                      <% } else { %>
+                        <!-- <i id="eventFooter" data-toggle="modal" data-target="#eventModal" data-whatever="@mdo" class='col-12 fas fa-plus'></i> -->
+                        <i id="eventFooter" onclick="newModal()" class='col-12 fas fa-plus'></i>
+                        <% } %>
+                      </div>
+                    </div>
+
+                    <!-- BEGIN OF NEW EVENTMODAL section -->
+                    <div id="editEventId"></div>
+                    <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="eventModalLabel"></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <form name="eventForm" id="eventForm" method="post">
+                            <div class="modal-body">
+                              <div class="form-group form-inline">
+                                <label for="eventName" class="col-form-label">Title:</label>
+                                <input type="text" class="form-control" id="eventName" name="currentEvent[title]" placeholder="Event Name" required></input>
+                              </div>
+                              <div class="form-group form-inline">
+                                <label for="allDayInd" class="col-form-label">All Day Event:</label>
+                                <input type="checkbox" class="form-control" id="allDayInd" name="currentEvent[allDayInd]" onclick="showHideDiv(this)"></input>
+                              </div>
+                              <div class="form-group form-inline">
+                                <label for="startDate" class="col-form-label">Start:</label>
+                                <input type="date" class="form-control" onchange="checkEnd()" id="startDate" name="currentEvent[startDate]" required></input>
+                                <input type="time" class="form-control" onchange="checkEnd()" id="startTime" name="currentEvent[startTime]" required></input>
+                              </div>
+                              <div class="form-group form-inline">
+                                <label for="endDate" class="col-form-label">End:</label>
+                                <input type="date" class="form-control" onchange="checkEnd()" id="endDate" name="currentEvent[endDate]" required></input>
+                                <input type="time" class="form-control" onchange="checkEnd()" id="endTime" name="currentEvent[endTime]" required></input>
+                              </div>
+                              <div id="eventEndErr" class="warning">Event end date/time must be after start date/time</div>
+                              <div class="form-group form-inline">
+                                <label for="eventDesc" class="col-form-label">Description:</label>
+                                <textarea class="form-control" id="eventDesc" name="currentEvent[description]"></textarea>
+                              </div>
+                              <div class="form-group form-inline">
+                                <label for="location" class="col-form-label">Location:</label>
+                                <textarea class="form-control" id="location" name="currentEvent[location]"></textarea>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                              <button id="submitEvent" type="submit" class="btn btn-success">Submit</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                    <%- include ("./partials/footer.ejs") %>
