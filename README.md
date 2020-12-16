@@ -33,5 +33,5 @@ A logged-in user can take the following actions:
 - event section background image will change with the seasons
 
 
-## Running the project
-TBD
+## Project link
+https://circadian-daily.herokuapp.com/
