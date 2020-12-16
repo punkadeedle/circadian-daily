@@ -9,10 +9,15 @@ This project was started as a solo endeavor for chingu (voyage26), created with
 - Bootstrap
 
 ## Features
-The calendar and event list will be displayed on load.  The user can take the following actions:
+The calendar and event list will be displayed on load.  
+
+A user (not logged-in) can take the following actions:
 - register a new account
 - login to an existing account
-- logout of current logged-in account
+- scroll to the next or prior month
+
+A logged-in user can take the following actions:
+- logout of current account
 - edit profile (email and zip code only)
 - scroll to the next or prior month
 - add an event
