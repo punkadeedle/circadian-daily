@@ -1,13 +1,12 @@
 <%- include ("./partials/header.ejs") %>
 
-<div class="container-fluid">
   <div class="row">
     <div id="calendarSection"class="col-lg-7 col-md-12">
       <div class="row" id="calendarTitle"></div>
       <div class="row">
-        <i onclick="loadPrevious()" class='col-1 notCurrent fas fa-angle-left'></i>
+        <i onclick="loadPrevious()" class='d-none d-md-inline-block col-1 notCurrent fas fa-angle-left'></i>
         <div id="calendarTable"  class="col-10"></div>
-        <i onclick="loadNext()" class='col-1 notCurrent fas fa-angle-right'></i>
+        <i onclick="loadNext()" class='d-none d-md-inline-block col-1 notCurrent fas fa-angle-right'></i>
       </div>
     </div>
     <div id="eventSection" class="col-lg-5 col-md-12">
@@ -81,7 +80,7 @@
                               </div>
                               <div class="form-group form-inline">
                                 <label for="allDayInd" class="col-form-label">All Day Event:</label>
-                                <input type="checkbox" class="form-control" id="allDayInd" name="currentEvent[allDayInd]" onclick="showHideDiv(this)"></input>
+                                <input type="checkbox" class="form-control" id="allDayInd" name="currentEvent[allDayInd]" onchange="showHideDiv(this)"></input>
                               </div>
                               <div class="form-group form-inline">
                                 <label for="startDate" class="col-form-label">Start:</label>
@@ -91,6 +90,9 @@
                               <div class="form-group form-inline">
                                 <label for="endDate" class="col-form-label">End:</label>
                                 <input type="date" class="form-control" onchange="checkEnd()" id="endDate" name="currentEvent[endDate]" required></input>
+                              </div>
+                              <div class="form-group form-inline">
+                                <label for="endTime" class="col-form-label"></label>
                                 <input type="time" class="form-control" onchange="checkEnd()" id="endTime" name="currentEvent[endTime]" required></input>
                               </div>
                               <div id="eventEndErr" class="warning">Event end date/time must be after start date/time</div>
@@ -110,5 +112,4 @@
                           </form>
                         </div>
                       </div>
-                    </div>
                     <%- include ("./partials/footer.ejs") %>

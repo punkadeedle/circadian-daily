@@ -256,6 +256,7 @@ function editModal(clickedNode) {
   document.getElementById("eventForm").action = "/events/"+eventString._id+"?_method=PATCH";
   document.getElementById("eventName").value = eventString.title;
   document.getElementById("allDayInd").checked = eventString.allDayInd=='on' ? true : false;
+  showHideDiv(document.getElementById("allDayInd"));
   document.getElementById("startDate").value = eventString.startDate.substring(0,10);
   document.getElementById("startTime").value = eventString.startTime;
   document.getElementById("endDate").value = eventString.endDate.substring(0,10);
@@ -263,6 +264,4 @@ function editModal(clickedNode) {
   document.getElementById("eventDesc").value = eventString.description;
   document.getElementById("location").value = eventString.location;
   $('#eventModal').modal('show');
-  showHideDiv(document.getElementById("allDayInd"));
-
 }
